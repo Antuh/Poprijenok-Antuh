@@ -35,20 +35,27 @@
                 <DataGridTextColumn Binding="{Binding Priority}" Header="Приоритет" Width="0.2*"/>
             </DataGrid.Columns>
         </DataGrid>
+        
         <Grid Grid.Row="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="33*"/>
                 <RowDefinition Height="8*"/>
             </Grid.RowDefinitions>
+            <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Stretch">
+                <TextBlock Text="Всего: " HorizontalAlignment="Left"  VerticalAlignment="Center"></TextBlock>
+                <TextBlock x:Name="full"  Text="" HorizontalAlignment="Right"  VerticalAlignment="Center"></TextBlock>
+            </StackPanel>
+            <StackPanel  Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Stretch" Width="auto">
+                <Button x:Name="back" Content="B" Click="back_Click" IsEnabled="False" Height="30" Width="20"></Button>
+                <StackPanel x:Name="pagin" Orientation="Horizontal" HorizontalAlignment="Stretch" Width="auto"></StackPanel>
+                <Button x:Name="forward" Content="F" Click="forward_Click" Height="30" Width="20"></Button>
+            </StackPanel>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Stretch">
-                <TextBlock Text="Всего: " HorizontalAlignment="Left"  VerticalAlignment="Center"></TextBlock>
-                <TextBlock x:Name="full"  Text="" HorizontalAlignment="Right"  VerticalAlignment="Center"></TextBlock>
-            </StackPanel>
+            
         </Grid>
         <Grid Grid.Row="3">
             <Grid.ColumnDefinitions>
@@ -62,11 +69,7 @@
             <Button x:Name="addButton" Height="auto" Width="auto" Grid.Column="2" Content="Добавить" Click="addButton_Click" />
             <Button x:Name="revButton" Height="auto" Width="auto" Grid.Column="3" Content="Обновить" Click="revButton_Click" />
         </Grid>
-        <StackPanel  Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Stretch" Width="auto">
-            <Button x:Name="back" Content="B" Click="back_Click" IsEnabled="False" Height="30" Width="20"></Button>
-            <StackPanel x:Name="pagin" Orientation="Horizontal" HorizontalAlignment="Stretch" Width="auto"></StackPanel>
-            <Button x:Name="forward" Content="F" Click="forward_Click" Height="30" Width="20"></Button>
-        </StackPanel>
+        
         
     </Grid>
 </Page>
