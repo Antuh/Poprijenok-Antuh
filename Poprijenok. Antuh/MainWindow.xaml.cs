@@ -21,6 +21,9 @@ namespace Poprijenok.Antuh
     public class helper
     {
         public static Entities ent;
+        internal static bool flag = false;
+        internal static int prioritet = 0;
+
         public static Entities GetContext()
         {
             if (ent == null)
@@ -39,8 +42,13 @@ namespace Poprijenok.Antuh
         }
         private void frame_LoadCompleted(object sender, NavigationEventArgs e)
         {
-
+            try
+            {
+                PageOne pg = (PageOne)e.Content;
+                pg.Load();
+            }
+            catch { };
         }
-        
+
     }
 }

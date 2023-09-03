@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -62,10 +63,31 @@ namespace Poprijenok.Antuh
 
         private void updateButton_Click(object sender, RoutedEventArgs e)
         {
-
+            if (agentGrid.SelectedItems.Count > 0)
+            {
+                int prt = 0;
+                foreach (Agent agent in agentGrid.SelectedItems)
+                {
+                    if (agent.Priority > prt) prt = agent.Priority;
+                }
+                WindowModal dlg = new WindowModal(prt);
+                helper.prioritet = prt;
+                helper.flag = false;
+                dlg.ShowDialog();
+                if (helper.flag)
+                {
+                    foreach (Agent agent in agentGrid.SelectedItems)
+                    {
+                        agent.Priority = helper.prioritet;
+                        helper.GetContext().Entry(agent).State = EntityState.Modified;
+                    }
+                    helper.GetContext().SaveChanges();
+                    Load();
+                }
+            }
         }
 
-        private void deleteButton_Click(object sender, RoutedEventArgs e)
+    private void deleteButton_Click(object sender, RoutedEventArgs e)
         {
 
         }
