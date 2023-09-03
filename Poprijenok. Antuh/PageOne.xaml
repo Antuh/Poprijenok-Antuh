@@ -37,6 +37,7 @@
                 <ComboBoxItem Content="ООО"/>
                 <ComboBoxItem Content="ПАО"/>
             </ComboBox>
+            <TextBox Name="searchTextBox" Margin="10,0,10,10"/>
         </Grid>
         <DataGrid AutoGenerateColumns="False" x:Name="agentGrid" Grid.Row="1" IsReadOnly="True">
             <DataGrid.Columns>

@@ -29,6 +29,7 @@ namespace Poprijenok.Antuh
         }
         public void Load()
         {
+            searchTextBox.TextChanged += SearchTextBox_TextChanged;
             agentGrid.ItemsSource = helper.GetContext().Agent.OrderBy(Agent => Agent.ID).Skip(start * 10).Take(10).ToList();
             fullCount = helper.GetContext().Agent.Count();
             full.Text = fullCount.ToString();
@@ -162,6 +163,17 @@ namespace Poprijenok.Antuh
                     agentGrid.ItemsSource = helper.GetContext().Agent.Where(agent => agent.AgentType.Title == "ПАО").ToList();
                 }
             }
+        }
+        private void SearchTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            string searchText = searchTextBox.Text.ToLower(); // Получаем текст из TextBox и преобразуем в нижний регистр для регистронезависимого поиска
+            // Фильтруем данные и отображаем только записи, которые содержат введенный текст в названии
+            agentGrid.ItemsSource = helper.GetContext().Agent
+                .Where(agent => agent.Title.ToLower().Contains(searchText))
+                .OrderBy(agent => agent.ID)
+                .Skip(start * 10)
+                .Take(10)
+                .ToList();
         }
     }
 }
