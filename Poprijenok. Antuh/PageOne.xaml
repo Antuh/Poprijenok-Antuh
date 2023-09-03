@@ -21,6 +21,22 @@
                 <ColumnDefinition></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
+            <ComboBox Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Width="246" SelectionChanged="ComboBox_SelectionChanged">
+                <ComboBoxItem Content="Без сортировки"/>
+                <ComboBoxItem Content="По возрастанию"/>
+                <ComboBoxItem Content="По убыванию"/>
+                <ComboBoxItem Content="По возрастанию приоритета"/>
+                <ComboBoxItem Content="По убыванию приоритета"/>
+            </ComboBox>
+            <ComboBox Grid.Column="2" HorizontalAlignment="Left" Margin="37,0,0,0" VerticalAlignment="Center" Width="144" SelectionChanged="ComboBox_SelectionChanged_1">
+                <ComboBoxItem Content="---"/>
+                <ComboBoxItem Content="ЗАО"/>
+                <ComboBoxItem Content="МКК"/>
+                <ComboBoxItem Content="МФО"/>
+                <ComboBoxItem Content="ОАО"/>
+                <ComboBoxItem Content="ООО"/>
+                <ComboBoxItem Content="ПАО"/>
+            </ComboBox>
         </Grid>
         <DataGrid AutoGenerateColumns="False" x:Name="agentGrid" Grid.Row="1" IsReadOnly="True">
             <DataGrid.Columns>
@@ -35,7 +51,7 @@
                 <DataGridTextColumn Binding="{Binding Priority}" Header="Приоритет" Width="0.2*"/>
             </DataGrid.Columns>
         </DataGrid>
-        
+
         <Grid Grid.Row="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="33*"/>
@@ -55,7 +71,7 @@
                 <ColumnDefinition></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            
+
         </Grid>
         <Grid Grid.Row="3">
             <Grid.ColumnDefinitions>
@@ -69,7 +85,7 @@
             <Button x:Name="addButton" Height="auto" Width="auto" Grid.Column="2" Content="Добавить" Click="addButton_Click" />
             <Button x:Name="revButton" Height="auto" Width="auto" Grid.Column="3" Content="Обновить" Click="revButton_Click" />
         </Grid>
-        
-        
+
+
     </Grid>
 </Page>

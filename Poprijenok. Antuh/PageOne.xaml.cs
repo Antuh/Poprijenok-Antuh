@@ -56,7 +56,7 @@ namespace Poprijenok.Antuh
             if ((start + 1) * 10 > fullCount) { forward.IsEnabled = false; }
             else { forward.IsEnabled = true; };
         }
-        
+
 
 
         private void updateButton_Click(object sender, RoutedEventArgs e)
@@ -94,6 +94,74 @@ namespace Poprijenok.Antuh
         {
             start++;
             Load();
+        }
+
+        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ComboBox comboBox = sender as ComboBox;
+            if (comboBox != null)
+            {
+                string selectedValue = ((ComboBoxItem)comboBox.SelectedItem).Content.ToString();
+
+                if (selectedValue == "Без сортировки")
+                {
+                    agentGrid.ItemsSource = helper.GetContext().Agent.OrderBy(Agent => Agent.ID).Skip(start * 10).Take(10).ToList();
+                }
+                else if (selectedValue == "По возрастанию")
+                {
+                    agentGrid.ItemsSource = helper.GetContext().Agent.OrderBy(agent => agent.Title).Skip(start * 10).Take(10).ToList();
+                }
+                else if (selectedValue == "По убыванию")
+                {
+                    agentGrid.ItemsSource = helper.GetContext().Agent.OrderByDescending(agent => agent.Title).Skip(start * 10).Take(10).ToList();
+                }
+                else if (selectedValue == "По возрастанию приоритета")
+                {
+                    agentGrid.ItemsSource = helper.GetContext().Agent.OrderBy(agent => agent.Priority).Skip(start * 10).Take(10).ToList();
+                }
+                else if (selectedValue == "По убыванию приоритета")
+                {
+                    agentGrid.ItemsSource = helper.GetContext().Agent.OrderByDescending(agent => agent.Priority).Skip(start * 10).Take(10).ToList();
+                }
+            }
+        }
+
+        private void ComboBox_SelectionChanged_1(object sender, SelectionChangedEventArgs e)
+        {
+            ComboBox comboBox = sender as ComboBox;
+            if (comboBox != null)
+            {
+                string selectedValue = ((ComboBoxItem)comboBox.SelectedItem).Content.ToString();
+
+                if (selectedValue == "---")
+                {
+                    agentGrid.ItemsSource = helper.GetContext().Agent.Where(agent => agent.AgentType.Title == "").ToList();
+                }
+                else if (selectedValue == "ЗАО")
+                {
+                    agentGrid.ItemsSource = helper.GetContext().Agent.Where(agent => agent.AgentType.Title == "ЗАО").ToList();
+                }
+                else if (selectedValue == "МКК")
+                {
+                    agentGrid.ItemsSource = helper.GetContext().Agent.Where(agent => agent.AgentType.Title == "МКК").ToList();
+                }
+                else if (selectedValue == "МФО")
+                {
+                    agentGrid.ItemsSource = helper.GetContext().Agent.Where(agent => agent.AgentType.Title == "МФО").ToList();
+                }
+                else if (selectedValue == "ОАО")
+                {
+                    agentGrid.ItemsSource = helper.GetContext().Agent.Where(agent => agent.AgentType.Title == "ОАО").ToList();
+                }
+                else if (selectedValue == "ООО")
+                {
+                    agentGrid.ItemsSource = helper.GetContext().Agent.Where(agent => agent.AgentType.Title == "ООО").ToList();
+                }
+                else if (selectedValue == "ПАО")
+                {
+                    agentGrid.ItemsSource = helper.GetContext().Agent.Where(agent => agent.AgentType.Title == "ПАО").ToList();
+                }
+            }
         }
     }
 }
