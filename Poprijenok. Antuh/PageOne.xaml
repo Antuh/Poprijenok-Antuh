@@ -39,7 +39,7 @@
             </ComboBox>
             <TextBox Name="searchTextBox" Margin="10,0,10,10"/>
         </Grid>
-        <DataGrid AutoGenerateColumns="False" x:Name="agentGrid" Grid.Row="1" IsReadOnly="True">
+        <DataGrid AutoGenerateColumns="False" x:Name="agentGrid" Grid.Row="1" IsReadOnly="True" MouseDown="agentGrid_MouseDown">
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding Title}" Header="Наименование" Width="2*"/>
                 <DataGridTextColumn Binding="{Binding Address}" Header="Адрес" Width="2*"/>

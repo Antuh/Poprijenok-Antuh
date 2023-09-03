@@ -175,5 +175,19 @@ namespace Poprijenok.Antuh
                 .Take(10)
                 .ToList();
         }
+        private void agentGrid_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (agentGrid.SelectedItems.Count > 0)
+            {
+                Agent agent = agentGrid.SelectedItems[0] as Agent;
+
+                if (agent != null)
+                {
+                    PageTwo pageTwo = new PageTwo(agent);
+
+                    this.NavigationService.Navigate(pageTwo);
+                }
+            }
+        }
     }
 }

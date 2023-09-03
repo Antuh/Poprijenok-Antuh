@@ -48,3 +48,5 @@ D:\Programmirovanie\Program\Poprijenok-Antuh\Poprijenok. Antuh\obj\Debug\Poprije
 D:\Programmirovanie\Program\Poprijenok-Antuh\Poprijenok. Antuh\obj\Debug\Poprijenok. Antuh.csproj.CopyComplete
 D:\Programmirovanie\Program\Poprijenok-Antuh\Poprijenok. Antuh\obj\Debug\Poprijenok.Antuh.exe
 D:\Programmirovanie\Program\Poprijenok-Antuh\Poprijenok. Antuh\obj\Debug\Poprijenok.Antuh.pdb
+D:\Programmirovanie\Program\Poprijenok-Antuh\Poprijenok. Antuh\obj\Debug\PageTwo.g.cs
+D:\Programmirovanie\Program\Poprijenok-Antuh\Poprijenok. Antuh\obj\Debug\PageTwo.baml
