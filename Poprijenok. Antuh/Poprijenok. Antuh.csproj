@@ -320,6 +320,7 @@
     <Resource Include="images\agents\agent_97.png" />
     <Resource Include="images\agents\agent_98.png" />
     <Resource Include="images\agents\agent_99.png" />
+    <Resource Include="images\agents\picture.png" />
     <Content Include="Model\Model1.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Model1.Context.cs</LastGenOutput>

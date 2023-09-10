@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Poprijenok.Antuh"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Border BorderThickness="5" BorderBrush="Aqua">
+    <Border BorderThickness="5" BorderBrush="Gray">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"></RowDefinition>

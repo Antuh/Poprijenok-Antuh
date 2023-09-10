@@ -43,8 +43,8 @@ namespace Poprijenok.Antuh.Model
         public string Email { get; set; }
         public string Logo { get; set; }
         public int Priority { get; set; }
-        public virtual int sale { get; set; }
-        public virtual int percent { get; set; }
+        public virtual int Sale { get; set; }
+        public virtual int Percent { get; set; }
 
 
         public virtual AgentType AgentType { get; set; }

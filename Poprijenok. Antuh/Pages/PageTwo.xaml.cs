@@ -23,9 +23,9 @@ namespace Poprijenok.Antuh
     /// </summary>
     public partial class PageTwo : Page
     {
-        Agent agent;
-        private int curSelPr;
-        private int curTypAg;
+        private Agent agent;
+        private int curSelPr = 0;
+        private int curTypAg = 0;
 
         public PageTwo(Agent ag)
         {
@@ -47,9 +47,7 @@ namespace Poprijenok.Antuh
                 this.Director.Text = ag.DirectorName;
                 this.Phone.Text = ag.Phone;
                 this.Prioritet.Text = ag.Priority.ToString();
-                //historyGrid.ItemsSource = helper.GetContext().ProductSale.Where(ProductSale => ProductSale.AgentID == ag.ID).ToList();
- 
-
+                historyGrid.ItemsSource = helper.GetContext().ProductSale.Where(ProductSale => ProductSale.AgentID == ag.ID).ToList();
             }
             else
             {
@@ -61,71 +59,14 @@ namespace Poprijenok.Antuh
             this.DataContext = agent;
 
         }
-        private void mask_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            string fnd = ((TextBox)sender).Text;
-            try
-            {
-                product.ItemsSource = helper.GetContext().Product.Where(Product => Product.Title.Contains(fnd)).ToList();
-            }
-            catch { };
-        }
-
 
         private void btnWriteAg_Click(object sender, RoutedEventArgs e)
         {
-
-            // Проверяем выбранный тип агента
-            if (curTypAg == 0)
-            {
-                MessageBox.Show("Выберите тип агента.");
-                return;
-            }
-
-            // Проверяем наличие названия агента
-            if (string.IsNullOrEmpty(this.Title.Text))
-            {
-                MessageBox.Show("Введите название агента.");
-                return;
-            }
-
-            // Проверяем корректность ИНН
-            if (!(new Regex(@"\d{10}|\d{12}")).IsMatch(this.Inn.Text))
-            {
-                MessageBox.Show("Введите корректный ИНН.");
-                return;
-            }
-
-            // Проверяем корректность КПП
-            if (!(new Regex(@"\d{4}[\dA-Z][\dA-Z]\d{3}")).IsMatch(this.Kpp.Text))
-            {
-                MessageBox.Show("Введите корректный КПП.");
-                return;
-            }
-
-            // Проверяем корректность номера телефона
-            if (!(new Regex(@"^\+?\d{0,2}\-?\d{3}\-?\d{3}\-?\d{4}")).IsMatch(this.Phone.Text))
-            {
-                MessageBox.Show("Введите корректный номер телефона.");
-                return;
-            }
-
-            // Проверяем приоритет и преобразуем его в число
-            if (!int.TryParse(this.Prioritet.Text, out int priority))
-            {
-                MessageBox.Show("Введите корректный приоритет.");
-                return;
-            }
-
-            // Создаем или обновляем агента
-            if (agent == null)
-            {
-                agent = new Agent();
-                btnDelAg.IsEnabled = false;
-                btnWritHi.IsEnabled = false;
-                btnDelHi.IsEnabled = false;
-            }
-
+            if (curTypAg == 0) return;
+            if (this.Title.Text == "") return;
+            if (!(new Regex(@"\d{10}|\d{12}")).IsMatch(this.Inn.Text)) return;
+            if (!(new Regex(@"\d{4}[\dA-Z][\dA-Z]\d{3}")).IsMatch(this.Kpp.Text)) return;
+            if ((this.Email.Text != "") && (!(new Regex(@"(\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*)")).IsMatch(this.Email.Text))) return;
             agent.Title = this.Title.Text;
             agent.AgentTypeID = curTypAg;
             agent.Address = this.Adress.Text;
@@ -133,38 +74,37 @@ namespace Poprijenok.Antuh
             agent.KPP = this.Kpp.Text;
             agent.Phone = this.Phone.Text;
             agent.DirectorName = this.Director.Text;
-            agent.Email = "student@mail.ru";
-            agent.Priority = priority;
-
+            agent.Phone = this.Phone.Text;
+            agent.Email = this.Email.Text;
             try
             {
-                using (var context = helper.GetContext())
+                agent.Priority = Convert.ToInt32(this.Prioritet.Text);
+            }
+            catch
+            {
+                return;
+            }
+            try
+            {
+                if (agent.ID > 0)
                 {
-                    if (agent.ID > 0)
-                    {
-                        context.Entry(agent).State = EntityState.Modified;
-                        context.SaveChanges();
-                        MessageBox.Show("Обновление информации об агенте завершено.");
-                    }
-                    else
-                    {
-                        context.Agent.Add(agent);
-                        context.SaveChanges();
-                        MessageBox.Show("Добавление информации об агенте завершено.");
-                    }
+                    helper.GetContext().Entry(agent).State = EntityState.Modified;
+                    helper.GetContext().SaveChanges();
+                    MessageBox.Show("Обновление информации об агенте завершено");
+                }
+                else
+                {
+                    helper.GetContext().Agent.Add(agent);
+                    helper.GetContext().SaveChanges();
+                    MessageBox.Show("Добавление информации об агенте завершено");
                 }
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Произошла ошибка: {ex.Message}");
-            }
-
+            catch { };
             btnDelAg.IsEnabled = true;
             btnWritHi.IsEnabled = true;
             btnDelHi.IsEnabled = true;
-        }
 
-    
+        }
 
         private void btnDelAg_Click(object sender, RoutedEventArgs e)
         {
@@ -185,19 +125,22 @@ namespace Poprijenok.Antuh
             helper.GetContext().SaveChanges();
             MessageBox.Show("Удаление информации об агенте завешено!");
             this.NavigationService.GoBack();
+
         }
+
         private void Type_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            // Проверяем, был ли выбран элемент
-            if (Type.SelectedItem != null)
-            {
-                // Получаем выбранный элемент из ComboBox (предположим, что элемент имеет свойство "ID" для идентификации типа агента)
-                var selectedType = (AgentType)Type.SelectedItem;
+            curTypAg = ((AgentType)Type.SelectedItem).ID;
+        }
 
-                // Устанавливаем значение curTypAg на основе ID выбранного типа агента
-                curTypAg = selectedType.ID;
-            }
+        private void historyGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
 
+        }
+
+        private void product_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            curSelPr = ((Product)product.SelectedItem).ID;
         }
 
         private void btnWritHi_Click(object sender, RoutedEventArgs e)
@@ -211,13 +154,13 @@ namespace Poprijenok.Antuh
             {
                 return;
             }
-            string dt = Date.ToString();
+            string dt = date.ToString();
             if (curSelPr > 0 && dt != "" && cnt > 0)
             {
                 ProductSale pr = new ProductSale();
                 pr.AgentID = agent.ID;
                 pr.ProductID = curSelPr;
-                pr.SaleDate = (DateTime)Date.SelectedDate;
+                pr.SaleDate = (DateTime)date.SelectedDate;
                 pr.ProductCount = cnt;
                 try
                 {
@@ -231,7 +174,6 @@ namespace Poprijenok.Antuh
                 }
             }
         }
-
         private void btnDelHi_Click(object sender, RoutedEventArgs e)
         {
             for (int i = 0; i < historyGrid.SelectedItems.Count; i++)
@@ -248,17 +190,19 @@ namespace Poprijenok.Antuh
                 historyGrid.ItemsSource = helper.GetContext().ProductSale.Where(ProductSale => ProductSale.AgentID == agent.ID).ToList();
             }
             catch { return; };
+
         }
 
-        private void product_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void mask_TextChanged(object sender, TextChangedEventArgs e)
         {
-            curSelPr = ((Product)product.SelectedItem).ID;
+            string fnd = ((TextBox)sender).Text;
+            try
+            {
+                product.ItemsSource = helper.GetContext().Product.Where(Product => Product.Title.Contains(fnd)).ToList();
+            }
+            catch { };
+
         }
-
-        private void historyGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
-
     }
 }
+    

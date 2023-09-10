@@ -111,7 +111,7 @@ namespace Poprijenok.Antuh
 
         private void addButton_Click(object sender, RoutedEventArgs e)
         {
-
+            NavigationService.Navigate(new PageTwo(null));
         }
 
         private void revButton_Click(object sender, RoutedEventArgs e)
@@ -232,6 +232,38 @@ namespace Poprijenok.Antuh
         private void agentGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             deleteButton.IsEnabled = agentGrid.SelectedItem != null;
+        }
+
+        private void agentGrid_LoadingRow(object sender, DataGridRowEventArgs e)
+        {
+            Agent agent = (Agent)e.Row.DataContext;
+            int sum = 0;
+            double fsum = 0;
+            foreach (ProductSale ps in agent.ProductSale)
+            {
+                List<ProductMaterial> mtr = new List<ProductMaterial> { };
+                mtr = helper.GetContext().ProductMaterial.Where(ProductMaterial => ProductMaterial.ProductID == ps.ProductID).ToList();
+                foreach (ProductMaterial mt in mtr)
+                {
+                    double f = decimal.ToDouble(mt.Material.Cost);
+                    fsum += f * (double)mt.Count;
+                }
+                fsum = fsum * ps.ProductCount;
+                if (ps.SaleDate.AddDays(365).CompareTo(DateTime.Today) > 0)
+                    sum += ps.ProductCount;
+            }
+            agent.Sale = sum;
+            agent.Percent = 0;
+            if (fsum >= 10000 && fsum < 50000) agent.Percent = 5;
+            if (fsum >= 50000 && fsum < 150000) agent.Percent = 10;
+            if (fsum >= 150000 && fsum < 500000) agent.Percent = 20;
+            if (fsum >= 500000) agent.Percent = 25;
+            if (agent.Percent == 25)
+            {
+                SolidColorBrush hb = new SolidColorBrush(Colors.LightGreen);
+                e.Row.Background = hb;
+            };
+
         }
     }
 }
